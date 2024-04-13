@@ -45,3 +45,6 @@ build/
 env/
 .conda/
 .local/share/jupyter/kernels
+data 
+results
+__pycache__
