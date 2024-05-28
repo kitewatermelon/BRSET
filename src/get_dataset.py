@@ -202,12 +202,12 @@ def split_data(df, column, split, undersample=False, undersample_ratio=1.0, rand
     print(f"Train data shape: {train_data.shape}")
     print(f"Test data shape: {test_data.shape}")
 
-    plt.figure(figsize=(10, 5))
-    plt.subplot(1, 2, 1)
-    plot_labels_distribution(train_data, column, title='Train Label Distribution')
-    plt.subplot(1, 2, 2)
-    plot_labels_distribution(test_data, column, title='Test Label Distribution')
-    plt.show()
+    # plt.figure(figsize=(10, 5))
+    # plt.subplot(1, 2, 1)
+    # plot_labels_distribution(train_data, column, title='Train Label Distribution')
+    # plt.subplot(1, 2, 2)
+    # plot_labels_distribution(test_data, column, title='Test Label Distribution')
+    # plt.show()
 
     return train_data, test_data
 
