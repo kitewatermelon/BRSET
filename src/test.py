@@ -52,6 +52,8 @@ def test_model(y_test, y_pred, y_prob=None):
     # Confusion matrix
     # Create a confusion matrix of the test predictions
     if plot_matrix:
+        plt.rc('font', size=50)
+
         cm = confusion_matrix(y_test, y_pred)
         # create heatmap
         # Set the size of the plot
@@ -65,69 +67,69 @@ def test_model(y_test, y_pred, y_prob=None):
         plt.show()
 
     #create ROC curve
-    from sklearn.preprocessing import LabelBinarizer
-    fig, ax = plt.subplots(figsize=(15, 15))
+    # from sklearn.preprocessing import LabelBinarizer
+    # fig, ax = plt.subplots(figsize=(15, 15))
 
-    label_binarizer = LabelBinarizer().fit(y_test)
-    y_onehot_test = label_binarizer.transform(y_test)
-    y_onehot_pred = label_binarizer.transform(y_pred)
+    # label_binarizer = LabelBinarizer().fit(y_test)
+    # y_onehot_test = label_binarizer.transform(y_test)
+    # y_onehot_pred = label_binarizer.transform(y_pred)
     
-    if (y_onehot_pred.shape[1] < 2):
-        fpr, tpr, _ = roc_curve(y_test,  y_pred)
+    # if (y_onehot_pred.shape[1] < 2):
+    #     fpr, tpr, _ = roc_curve(y_test,  y_pred)
 
-        #create ROC curve
-        #plt.plot(fpr,tpr)
-        if y_prob is not None:
-            RocCurveDisplay.from_predictions(
-                    y_test,
-                    y_prob,
-                    name=f"ROC curve",
-                    color='aqua',
-                    ax=ax,
-                )
-        else:
-            RocCurveDisplay.from_predictions(
-                    y_test,
-                    y_pred,
-                    name=f"ROC curve",
-                    color='aqua',
-                    ax=ax,
-                )
-        plt.plot([0, 1], [0, 1], "k--", label="ROC curve for chance level (AUC = 0.5)")
-        plt.title('ROC Curve')
-        plt.ylabel('True Positive Rate')
-        plt.xlabel('False Positive Rate')
-        plt.show()
+    #     #create ROC curve
+    #     #plt.plot(fpr,tpr)
+    #     if y_prob is not None:
+    #         RocCurveDisplay.from_predictions(
+    #                 y_test,
+    #                 y_prob,
+    #                 name=f"ROC curve",
+    #                 color='aqua',
+    #                 ax=ax,
+    #             )
+    #     else:
+    #         RocCurveDisplay.from_predictions(
+    #                 y_test,
+    #                 y_pred,
+    #                 name=f"ROC curve",
+    #                 color='aqua',
+    #                 ax=ax,
+    #             )
+    #     plt.plot([0, 1], [0, 1], "k--", label="ROC curve for chance level (AUC = 0.5)")
+    #     plt.title('ROC Curve')
+    #     plt.ylabel('True Positive Rate')
+    #     plt.xlabel('False Positive Rate')
+    #     plt.show()
         
-    else:
-        from itertools import cycle
-        colors = cycle(["aqua", "darkorange", "cornflowerblue", "red", "green", "yellow", "purple", "pink", "brown", "black"])
-        if y_prob is None:
-            for class_id, color in zip(range(len(label_binarizer.classes_)), colors):
-                RocCurveDisplay.from_predictions(
-                    y_onehot_test[:, class_id],
-                    y_onehot_pred[:, class_id],
-                    name=f"ROC curve for {label_binarizer.classes_[class_id]}",
-                    color=color,
-                    ax=ax,
-                )
-        else:
-            for class_id, color in zip(range(len(label_binarizer.classes_)), colors):
-                RocCurveDisplay.from_predictions(
-                    y_onehot_test[:, class_id],
-                    y_prob[:, class_id],
-                    name=f"ROC curve for {label_binarizer.classes_[class_id]}",
-                    color=color,
-                    ax=ax,
-                )
+    # else:
+    #     from itertools import cycle
+    #     colors = cycle(["aqua", "darkorange", "cornflowerblue", "red", "green", "yellow", "purple", "pink", "brown", "black"])
+    #     if y_prob is None:
+    #         for class_id, color in zip(range(len(label_binarizer.classes_)), colors):
+    #             RocCurveDisplay.from_predictions(
+    #                 y_onehot_test[:, class_id],
+    #                 y_onehot_pred[:, class_id],
+    #                 name=f"ROC curve for {label_binarizer.classes_[class_id]}",
+    #                 color=color,
+    #                 ax=ax,
+    #             )
+    #     else:
+    #         for class_id, color in zip(range(len(label_binarizer.classes_)), colors):
+    #             RocCurveDisplay.from_predictions(
+    #                 y_onehot_test[:, class_id],
+    #                 y_prob[:, class_id],
+    #                 name=f"ROC curve for {label_binarizer.classes_[class_id]}",
+    #                 color=color,
+    #                 ax=ax,
+    #             )
 
-        plt.plot([0, 1], [0, 1], "k--", label="ROC curve for chance level (AUC = 0.5)")
-        plt.axis("square")
-        plt.xlabel("False Positive Rate")
-        plt.ylabel("True Positive Rate")
-        plt.title("Extension of Receiver Operating Characteristic\nto One-vs-Rest multiclass")
-        plt.legend(loc='upper left', bbox_to_anchor=(1, 1), bbox_transform=plt.gcf().transFigure)
-        plt.show()
+    #     plt.plot([0, 1], [0, 1], "k--", label="ROC curve for chance level (AUC = 0.5)")
+    #     plt.axis("square")
+    #     plt.xlabel("False Positive Rate")
+    #     plt.ylabel("True Positive Rate")
+    #     plt.title("Extension of Receiver Operating Characteristic\nto One-vs-Rest multiclass")
+    #     plt.legend(loc='upper left', bbox_to_anchor=(1, 1), bbox_transform=plt.gcf().transFigure)
+    #     plt.show()
         
     # Classification report
     # Create a classification report of the test predictions
@@ -157,7 +159,7 @@ def test(model, test_dataloader, saliency=True, device='cpu', save=False):
         y_true, y_pred = [], []
         for batch in tqdm(test_dataloader, total=len(test_dataloader)):
             image, labels =  batch['image'].to(device), batch['labels'].to(device)
-
+            # print(image, labels)
             outputs = model(image)
 
             if (output_size == 1):
@@ -208,6 +210,7 @@ def test(model, test_dataloader, saliency=True, device='cpu', save=False):
             for eval_image in eval_images:
                 eval_image = eval_image.unsqueeze(0)  # Add batch dimension
                 saliency_map = get_saliency_map(model, eval_image)
+                # plt.rc('font', size=12)
 
                 # Plot original image and saliency map side by side
                 plt.figure(figsize=(10, 4))
